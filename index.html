@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Выбор туфель для Ариши</title>
+<style>
+    body {
+        background-color: lavender; /* Лавандовый фон */
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+    }
+    #shoeDisplay {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+    }
+    .shoe {
+        width: 100px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background: white;
+    }
+    .selected {
+        border: 2px solid red; /* Выделение для выбранной пары */
+    }
+    #startButton {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+<h1>Какие туфли выбрать Арише?</h1>
+<div id="shoeDisplay"></div>
+<button id="startButton">Начать пролистывание</button>
+
+<script>
+    const colors = [
+        'white', 'red', 'blue', 'green', 'yellow', 'pink', 'purple', 'orange', 
+        'grey', 'brown', 'navy', 'lime', 'teal', 'maroon', 'black', 'leopard'
+    ];
+
+    const shoeDisplay = document.getElementById('shoeDisplay');
+    colors.forEach(color => {
+        const shoeElement = document.createElement('div');
+        shoeElement.classList.add('shoe');
+        if (color === 'leopard') {
+            shoeElement.textContent = 'леопардовый'; // Надпись для леопардового цвета
+            shoeElement.style.background = 'grey'; // Серый фон для леопардового
+        } else {
+            shoeElement.style.background = color;
+            shoeElement.textContent = color;
+        }
+        shoeDisplay.appendChild(shoeElement);
+    });
+
+    const startButton = document.getElementById('startButton');
+    startButton.addEventListener('click', () => {
+        const shoes = document.querySelectorAll('.shoe');
+        let index = 0;
+        shoes.forEach(shoe => shoe.classList.remove('selected'));
+
+        const interval = setInterval(() => {
+            if (index > 0) {
+                shoes[index - 1].classList.remove('selected');
+            }
+            shoes[index].classList.add('selected');
+
+            if (shoes[index].textContent === 'леопардовый') {
+                clearInterval(interval);
+            }
+
+            index = (index + 1) % shoes.length;
+        }, 100);
+    });
+</script>
+</body>
+</html>
